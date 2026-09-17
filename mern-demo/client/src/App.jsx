@@ -1,12 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 function App() {
   const [students, setStudents] = useState([]);
-  const [formData, setFormData] = useState({ studentId: '', name: '', email: '' });
+  const [formData, setFormData] = useState({
+    studentId: "",
+    name: "",
+    email: "",
+  });
   const [editingId, setEditingId] = useState(null);
 
   // Đường dẫn Backend API
-const API_URL = 'https://verbose-space-guacamole-97x6wr6q95vp2jqv-5000.app.github.dev/api/students';
+  const API_URL = "http://localhost:5000/api/students";
 
   // Câu 47: Lấy danh sách sinh viên từ Backend (GET)
   const fetchStudents = async () => {
@@ -34,20 +38,20 @@ const API_URL = 'https://verbose-space-guacamole-97x6wr6q95vp2jqv-5000.app.githu
     if (editingId) {
       // Cập nhật sinh viên
       await fetch(`${API_URL}/${editingId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
       setEditingId(null);
     } else {
       // Thêm mới sinh viên
       await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
     }
-    setFormData({ studentId: '', name: '', email: '' });
+    setFormData({ studentId: "", name: "", email: "" });
     fetchStudents();
   };
 
@@ -59,18 +63,21 @@ const API_URL = 'https://verbose-space-guacamole-97x6wr6q95vp2jqv-5000.app.githu
 
   // Xóa sinh viên (DELETE)
   const handleDelete = async (id) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa sinh viên này?')) {
-      await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+    if (window.confirm("Bạn có chắc chắn muốn xóa sinh viên này?")) {
+      await fetch(`${API_URL}/${id}`, { method: "DELETE" });
       fetchStudents();
     }
   };
 
   return (
-    <div style={{ padding: '30px', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: "30px", fontFamily: "Arial, sans-serif" }}>
       <h2>Quản Lý Sinh Viên - MERN Stack</h2>
 
       {/* Form nhập dữ liệu */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ marginBottom: "20px", display: "flex", gap: "10px" }}
+      >
         <input
           name="studentId"
           placeholder="Mã sinh viên"
@@ -92,13 +99,18 @@ const API_URL = 'https://verbose-space-guacamole-97x6wr6q95vp2jqv-5000.app.githu
           onChange={handleChange}
           required
         />
-        <button type="submit">{editingId ? 'Cập nhật' : 'Thêm mới'}</button>
+        <button type="submit">{editingId ? "Cập nhật" : "Thêm mới"}</button>
       </form>
 
       {/* Bảng hiển thị danh sách */}
-      <table border="1" cellPadding="10" cellSpacing="0" style={{ width: '100%', textIndent: 'left' }}>
+      <table
+        border="1"
+        cellPadding="10"
+        cellSpacing="0"
+        style={{ width: "100%", textIndent: "left" }}
+      >
         <thead>
-          <tr style={{ backgroundColor: '#f2f2f2' }}>
+          <tr style={{ backgroundColor: "#f2f2f2" }}>
             <th>MSSV</th>
             <th>Họ tên</th>
             <th>Email</th>
@@ -112,7 +124,7 @@ const API_URL = 'https://verbose-space-guacamole-97x6wr6q95vp2jqv-5000.app.githu
               <td>{st.name}</td>
               <td>{st.email}</td>
               <td>
-                <button onClick={() => handleEdit(st)}>Sửa</button>{' '}
+                <button onClick={() => handleEdit(st)}>Sửa</button>{" "}
                 <button onClick={() => handleDelete(st._id)}>Xóa</button>
               </td>
             </tr>
